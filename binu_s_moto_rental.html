@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binu's Moto Rental | Dili, Timor-Leste</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            400: '#00E6A8',
+                            500: '#00C896',
+                            600: '#00A87E',
+                            700: '#008765',
+                            900: '#00382A',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .bg-grid-pattern {
+            background-size: 32px 32px;
+            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+        .glow-teal {
+            box-shadow: 0 0 30px -5px rgba(0, 230, 168, 0.25);
+        }
+        .modal-active {
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-[#080d14] text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-black">
+
+    <header class="sticky top-0 z-40 backdrop-blur-xl bg-[#080d14]/85 border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-400 flex items-center justify-center text-slate-950 font-black shadow-lg shadow-brand-400/20 group-hover:scale-105 transition-transform">
+                        <i class="fa-solid fa-motorcycle text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="text-xl font-black tracking-tight text-white leading-none">BINU'S MOTO</span>
+                        </div>
+                        <span class="text-[10px] font-bold text-brand-400 tracking-widest uppercase flex items-center gap-1 mt-0.5">
+                            <i class="fa-solid fa-location-dot text-[9px]"></i> DILI, TIMOR-LESTE
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-bold text-slate-300">
+                    <a href="#fleet" class="hover:text-brand-400 transition-colors" id="nav-fleet">Our Fleet (4 Models)</a>
+                    <a href="#calculator" class="hover:text-brand-400 transition-colors" id="nav-calc">Price Calculator</a>
+                    <a href="#pricing" class="hover:text-brand-400 transition-colors" id="nav-rates">Rates</a>
+                    <a href="#contact" class="hover:text-brand-400 transition-colors" id="nav-contact">Contact</a>
+                </nav>
+
+                <!-- Actions & Language Switcher -->
+                <div class="hidden lg:flex items-center gap-3">
+                    <button onclick="toggleLanguage()" id="lang-btn" class="px-3 py-2 rounded-xl border border-slate-800 bg-slate-900 text-xs font-bold text-slate-300 hover:border-slate-700 flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-globe text-brand-400"></i>
+                        <span id="lang-label">TETUN</span>
+                    </button>
+                    <a href="https://wa.me/67075821954?text=Hi%20Binu's%20Moto%20Rental,%20I'm%20interested%20in%20renting%20a%20motorcycle." target="_blank" class="px-4 py-2.5 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-sm shadow-lg shadow-brand-400/20 transition-all flex items-center gap-2">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>+670 75821954</span>
+                    </a>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-toggle" class="md:hidden p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden md:hidden border-b border-slate-800 bg-slate-900 px-4 pt-3 pb-6 space-y-3">
+            <a href="#fleet" onclick="closeMobileMenu()" class="block py-2 text-base font-semibold text-slate-200">Our Fleet (4 Models)</a>
+            <a href="#calculator" onclick="closeMobileMenu()" class="block py-2 text-base font-semibold text-slate-200">Price Calculator</a>
+            <a href="#pricing" onclick="closeMobileMenu()" class="block py-2 text-base font-semibold text-slate-200">Rates</a>
+            <a href="#contact" onclick="closeMobileMenu()" class="block py-2 text-base font-semibold text-slate-200">Contact</a>
+            <div class="pt-4 border-t border-slate-800 flex flex-col gap-3">
+                <button onclick="toggleLanguage()" class="w-full py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-xs font-bold text-slate-300 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-globe text-brand-400"></i>
+                    <span>Switch Language (English / Tetun)</span>
+                </button>
+                <a href="tel:+67078054932" class="w-full py-3 rounded-xl border border-slate-700 bg-slate-800 text-center font-bold text-slate-200 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-phone text-brand-400"></i>
+                    <span>Call 78054932</span>
+                </a>
+                <a href="https://wa.me/67075821954" target="_blank" class="w-full py-3 rounded-xl bg-brand-400 text-slate-950 font-black text-center flex items-center justify-center gap-2">
+                    <i class="fa-brands fa-whatsapp text-lg"></i>
+                    <span>WhatsApp 75821954</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative overflow-hidden pt-10 pb-20 md:pt-16 md:pb-28 bg-grid-pattern">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+                
+                <!-- Left Hero Column -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-brand-400/30 text-brand-400 text-xs font-bold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+                        <span id="hero-pill">DIRECT WHATSAPP BOOKING: +670 75821954</span>
+                    </div>
+
+                    <h1 class="text-4xl sm:text-6xl font-black text-white tracking-tight leading-[1.08]" id="hero-title">
+                        Explore Timor–Leste <br class="hidden sm:inline"><span class="text-brand-400">With Ultimate Freedom</span>
+                    </h1>
+
+                    <p class="text-base sm:text-lg text-slate-400 max-w-2xl mx-auto lg:mx-0 leading-relaxed" id="hero-desc">
+                        Choose from 4 premium motorbikes: Honda Beat 110cc (CBS & Sporty) and Honda Genio 110cc ($18/day), or the powerful KLX / KLS 150cc Dual-Sport Trail bike ($20/day). Includes free hotel & airport delivery, 2 helmets, and 24/7 support!
+                    </p>
+
+                    <!-- Feature Badges -->
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-1">
+                        <div class="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-helmet-safety text-brand-400"></i>
+                            <span id="badge-helmets">2 Helmets Included</span>
+                        </div>
+                        <div class="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-truck-ramping text-brand-400"></i>
+                            <span id="badge-delivery">Free Dili Delivery</span>
+                        </div>
+                        <div class="px-3.5 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs font-bold text-slate-300 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-brand-400"></i>
+                            <span id="badge-ready">100% Road Ready</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#fleet" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-base shadow-xl shadow-brand-400/20 transition-all flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-motorcycle"></i>
+                            <span id="btn-browse">Browse All 4 Bikes</span>
+                        </a>
+                        <a href="#calculator" class="w-full sm:w-auto px-7 py-4 rounded-2xl bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-200 font-bold text-base transition-all flex items-center justify-center gap-3">
+                            <i class="fa-solid fa-calculator text-brand-400"></i>
+                            <span id="btn-calc">Live Price Calculator</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right Hero Card (Match Screenshot Layout) -->
+                <div class="lg:col-span-5">
+                    <div class="relative rounded-3xl bg-slate-900/90 p-4 border border-slate-800 shadow-2xl overflow-hidden group">
+                        <div class="relative h-80 rounded-2xl overflow-hidden bg-slate-950 flex items-center justify-center">
+                            <img src="WhatsApp Image 2026-10-02 at 15.11.23 (1).jpeg" alt="KLS 150cc Trail Bike" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute top-4 right-4 bg-brand-400 text-slate-950 text-xs font-black px-3 py-1.5 rounded-lg shadow-md uppercase">
+                                Off-Road Trail
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <div class="text-[11px] font-bold text-brand-400 uppercase tracking-wider">OFF-ROAD & MOUNTAIN SPECIALIST</div>
+                            <div class="flex items-center justify-between my-1">
+                                <h3 class="text-2xl font-black text-white">KLX / KLS 150cc Trail Bike</h3>
+                                <div class="text-xl font-black text-brand-400">$20 <span class="text-xs font-normal text-slate-400">/ Day</span></div>
+                            </div>
+                            <div class="flex items-center justify-between text-xs text-slate-400 mt-3 pt-3 border-t border-slate-800">
+                                <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 font-mono text-slate-300">
+                                    <i class="fa-solid fa-id-card text-brand-400 mr-1"></i> TL 1357
+                                </span>
+                                <span class="font-bold text-slate-300">Manual 150cc</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="fleet" class="py-20 bg-slate-900/50 border-y border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <span class="text-brand-400 font-bold text-xs tracking-widest uppercase">Verified Fleet</span>
+                    <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">Our Motorcycle Fleet</h2>
+                    <p class="text-slate-400 mt-1 text-sm">Choose from 110cc city scooters ($18/day) or 150cc off-road trail ($20/day).</p>
+                </div>
+                <div class="text-xs font-bold text-slate-400 bg-slate-950 px-4 py-2.5 rounded-xl border border-slate-800">
+                    <i class="fa-solid fa-phone text-brand-400 mr-1"></i> Call 78054932 / WhatsApp 75821954
+                </div>
+            </div>
+
+            <!-- Fleet Grid -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                
+                <!-- Bike 1: Honda Genio -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-brand-400/50 transition-all duration-300 group">
+                    <div>
+                        <div class="relative bg-slate-950 h-56 p-6 flex items-center justify-center">
+                            <img src="download-removebg-preview.png" alt="Honda Genio 110cc" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform">
+                            <span class="absolute top-4 left-4 bg-slate-900/90 text-slate-300 text-[11px] font-bold px-3 py-1 rounded-full border border-slate-800">110cc Automatic</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-black text-white">Honda Genio 110cc</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                Stylish blue and brown retro design scooter with responsive power and lightweight frame for smooth city riding.
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $18 / 24 Hours</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $95 / 7 Days ($13.5/day)</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $270 / 30 Days ($9/day)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openBookingModal('Honda Genio 110cc', 18)" class="w-full py-3 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-xs transition-colors shadow-md shadow-brand-400/20">
+                            Reserve Genio ($18/24h)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bike 2: Honda Beat CBS -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-brand-400/50 transition-all duration-300 group">
+                    <div>
+                        <div class="relative bg-slate-950 h-56 p-6 flex items-center justify-center">
+                            <img src="download__1_-removebg-preview (1).png" alt="Honda Beat CBS 110cc" class="max-h-full max-w-full object-contain group-hover:scale-105 transition-transform">
+                            <span class="absolute top-4 left-4 bg-slate-900/90 text-slate-300 text-[11px] font-bold px-3 py-1 rounded-full border border-slate-800">110cc Automatic</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-black text-white">Honda Beat CBS</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                Sporty blue edition equipped with Combi-Brake System (CBS) for maximum safety on Dili streets.
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $18 / 24 Hours</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $95 / 7 Days ($13.5/day)</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $270 / 30 Days ($9/day)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openBookingModal('Honda Beat CBS 110cc', 18)" class="w-full py-3 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-xs transition-colors shadow-md shadow-brand-400/20">
+                            Reserve Beat CBS ($18/24h)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bike 3: Honda Beat Sport -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-brand-400/50 transition-all duration-300 group">
+                    <div>
+                        <div class="relative bg-slate-950 h-56 p-6 flex items-center justify-center">
+                            <img src="b1abae0e-2c36-4019-9b5c-b9f8f8512aa1.jpeg" alt="Honda Beat Sport 110cc" class="max-h-full max-w-full object-cover rounded-xl group-hover:scale-105 transition-transform">
+                            <span class="absolute top-4 left-4 bg-slate-900/90 text-slate-300 text-[11px] font-bold px-3 py-1 rounded-full border border-slate-800">110cc Automatic</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-black text-white">Honda Beat Sport</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                Pearl white and black sporty street edition. Nimble frame perfect for city commutes and coastlines.
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $18 / 24 Hours</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $95 / 7 Days ($13.5/day)</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $270 / 30 Days ($9/day)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openBookingModal('Honda Beat Sport 110cc', 18)" class="w-full py-3 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-xs transition-colors shadow-md shadow-brand-400/20">
+                            Reserve Beat Sport ($18/24h)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Bike 4: KLX / KLS 150cc -->
+                <div class="bg-slate-900 border-2 border-brand-400/60 rounded-3xl overflow-hidden flex flex-col justify-between hover:border-brand-400 transition-all duration-300 group shadow-xl shadow-brand-400/5">
+                    <div>
+                        <div class="relative bg-slate-950 h-56 p-4 flex items-center justify-center">
+                            <img src="WhatsApp Image 2026-10-02 at 15.11.23 (1).jpeg" alt="KLX / KLS 150cc Trail" class="max-h-full max-w-full object-cover rounded-xl group-hover:scale-105 transition-transform">
+                            <span class="absolute top-4 left-4 bg-brand-400 text-slate-950 text-[11px] font-black px-3 py-1 rounded-full shadow-md">150cc Manual Trail</span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-black text-white">KLX / KLS 150cc Trail</h3>
+                            <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                                Heavy-duty dual-sport trail bike designed for rugged mountain trails, dirt roads, and island exploration.
+                            </p>
+                            <div class="mt-4 pt-4 border-t border-slate-800 space-y-2 text-xs text-slate-300">
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $20 / 24 Hours</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $115 / 7 Days ($16.4/day)</div>
+                                <div class="flex items-center gap-2"><i class="fa-solid fa-check text-brand-400"></i> $330 / 30 Days ($11/day)</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-6 pt-0">
+                        <button onclick="openBookingModal('KLX / KLS 150cc Trail', 20)" class="w-full py-3 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-xs transition-colors shadow-md shadow-brand-400/20">
+                            Reserve KLS 150cc ($20/24h)
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="calculator" class="py-20 bg-[#080d14]">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-brand-400 font-bold text-xs tracking-widest uppercase">Real-Time Estimator</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">Live Rental Price Calculator</h2>
+                <p class="text-slate-400 mt-2 text-sm">Select your bike model and duration to calculate daily, weekly, or monthly discounted totals.</p>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 sm:p-10 shadow-2xl">
+                <div class="grid lg:grid-cols-12 gap-8 items-center">
+                    
+                    <!-- Controls -->
+                    <div class="lg:col-span-7 space-y-6">
+                        
+                        <!-- Bike Selection Buttons -->
+                        <div>
+                            <label class="block text-xs font-bold uppercase text-slate-300 tracking-wider mb-2">1. Select Bike Model</label>
+                            <div class="grid grid-cols-2 gap-3" id="calc-bike-selector">
+                                <button type="button" onclick="selectCalcBike(this, 'Honda Genio 110cc', 18, 95, 270)" class="calc-bike-btn p-3.5 rounded-2xl border border-brand-400 bg-brand-400/10 text-left transition-all">
+                                    <div class="font-black text-white text-sm">Honda Genio</div>
+                                    <div class="text-xs text-brand-400 mt-0.5">$18/day • $95/wk</div>
+                                </button>
+                                <button type="button" onclick="selectCalcBike(this, 'Honda Beat CBS 110cc', 18, 95, 270)" class="calc-bike-btn p-3.5 rounded-2xl border border-slate-800 bg-slate-950 text-left hover:border-slate-700 transition-all">
+                                    <div class="font-black text-white text-sm">Honda Beat CBS</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">$18/day • $95/wk</div>
+                                </button>
+                                <button type="button" onclick="selectCalcBike(this, 'Honda Beat Sport 110cc', 18, 95, 270)" class="calc-bike-btn p-3.5 rounded-2xl border border-slate-800 bg-slate-950 text-left hover:border-slate-700 transition-all">
+                                    <div class="font-black text-white text-sm">Honda Beat Sport</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">$18/day • $95/wk</div>
+                                </button>
+                                <button type="button" onclick="selectCalcBike(this, 'KLX / KLS 150cc Trail', 20, 115, 330)" class="calc-bike-btn p-3.5 rounded-2xl border border-slate-800 bg-slate-950 text-left hover:border-slate-700 transition-all">
+                                    <div class="font-black text-white text-sm">KLX / KLS 150cc</div>
+                                    <div class="text-xs text-slate-400 mt-0.5">$20/day • $115/wk</div>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Days Slider -->
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <label class="text-xs font-bold uppercase text-slate-300 tracking-wider">2. Rental Duration</label>
+                                <span class="text-brand-400 font-black text-sm" id="calc-days-display">1 Day (24 Hours)</span>
+                            </div>
+                            <input type="range" id="calc-days-slider" min="1" max="30" value="1" oninput="updateCalc()" class="w-full h-2 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-brand-400">
+                            <div class="flex justify-between text-[11px] text-slate-500 mt-1 font-semibold">
+                                <span>1 Day</span>
+                                <span>7 Days (Weekly Discount)</span>
+                                <span>15 Days</span>
+                                <span>30 Days (Monthly Discount)</span>
+                            </div>
+                        </div>
+
+                        <!-- Options -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Start Date</label>
+                                <input type="date" id="calc-start-date" onchange="updateCalc()" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Helmets Included</label>
+                                <select id="calc-helmets" onchange="updateCalc()" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none">
+                                    <option value="1 Helmet (Free)">1 Helmet (Free)</option>
+                                    <option value="2 Helmets (Free)">2 Helmets (Free)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Live Total Box -->
+                    <div class="lg:col-span-5">
+                        <div class="bg-slate-950 rounded-2xl p-6 border border-slate-800 space-y-5">
+                            <h3 class="text-lg font-black text-white pb-3 border-b border-slate-800 flex items-center justify-between">
+                                <span>Rental Summary</span>
+                                <span class="text-[11px] font-bold text-brand-400 bg-brand-400/10 px-2.5 py-1 rounded-full border border-brand-400/20">Auto Discounted</span>
+                            </h3>
+
+                            <div class="space-y-3 text-xs sm:text-sm">
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Selected Bike:</span>
+                                    <span class="font-bold text-white" id="sum-bike-name">Honda Genio 110cc</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Duration:</span>
+                                    <span class="font-bold text-white" id="sum-duration">1 Day</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Applied Pricing Tier:</span>
+                                    <span class="font-bold text-brand-400" id="sum-rate-tier">Daily Rate ($18/24h)</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span class="text-slate-400">Helmets:</span>
+                                    <span class="font-bold text-slate-200" id="sum-helmets">1 Helmet (Free)</span>
+                                </div>
+                            </div>
+
+                            <div class="pt-4 border-t border-slate-800 flex items-baseline justify-between">
+                                <div>
+                                    <div class="text-xs text-slate-400 font-bold uppercase">Estimated Total</div>
+                                    <div class="text-[11px] text-slate-500">Pay on pickup/delivery</div>
+                                </div>
+                                <div class="text-4xl font-black text-brand-400" id="sum-total-price">$18</div>
+                            </div>
+
+                            <button onclick="submitCalcToWhatsApp()" class="w-full py-4 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-sm transition-all shadow-lg shadow-brand-400/20 flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-xl"></i>
+                                <span>Book via WhatsApp 75821954</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="pricing" class="py-20 bg-slate-900/40 border-y border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-400 font-bold text-xs tracking-widest uppercase">Discount Tiers</span>
+                <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight mt-1">Lower Short & Long Term Rates</h2>
+                <p class="text-slate-400 mt-2 text-sm">Save significantly on weekly exploration and monthly extended stays in Dili.</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                
+                <!-- Daily Card -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Standard Daily (24h)</div>
+                        <div class="flex items-baseline gap-1 my-3">
+                            <span class="text-5xl font-black text-white">$18</span>
+                            <span class="text-slate-400 text-xs font-bold">/ Scooters ($20 KLS)</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">Ideal for quick city runs, beach trips, or daily errands around Dili.</p>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800 pt-6">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> 1 or 2 Helmets Included</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Free Dili Hotel Delivery</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Clean & Fully Serviced</li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Daily Hire', 18)" class="mt-8 w-full py-3.5 rounded-xl border border-slate-700 hover:border-brand-400 text-white font-bold text-sm transition-colors">
+                        Book Daily
+                    </button>
+                </div>
+
+                <!-- Weekly Card -->
+                <div class="bg-slate-900 border-2 border-brand-400 rounded-3xl p-8 flex flex-col justify-between relative shadow-2xl shadow-brand-400/10">
+                    <span class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-400 text-slate-950 text-[11px] font-black px-4 py-1 rounded-full uppercase tracking-wider shadow-md">Lower Weekly Rate</span>
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-brand-400 mb-2">Short Term Weekly (7 Days)</div>
+                        <div class="flex items-baseline gap-1 my-3">
+                            <span class="text-5xl font-black text-white">$95</span>
+                            <span class="text-slate-400 text-xs font-bold">/ Scooters ($115 KLS)</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">Discounted to just $13.5/day for scooters ($16.4/day for KLS 150cc).</p>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800 pt-6">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Save $30+ per week</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Up to 2 Helmets Included</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Free Hotel / Airport Pickup</li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Weekly Rental ($95/week)', 95)" class="mt-8 w-full py-3.5 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-sm transition-colors shadow-lg shadow-brand-400/20">
+                        Book Weekly
+                    </button>
+                </div>
+
+                <!-- Monthly Card -->
+                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Long Term Monthly (30 Days)</div>
+                        <div class="flex items-baseline gap-1 my-3">
+                            <span class="text-5xl font-black text-white">$270</span>
+                            <span class="text-slate-400 text-xs font-bold">/ Scooters ($330 KLS)</span>
+                        </div>
+                        <p class="text-xs text-slate-400 leading-relaxed mb-6">Ultra-discounted rate ($9/day for scooters, $11/day for KLS 150cc) for ex-pats & stays.</p>
+                        
+                        <ul class="space-y-3 text-xs text-slate-300 border-t border-slate-800 pt-6">
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Save 50% on Daily Fee</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Free Regular Oil Maintenance</li>
+                            <li class="flex items-center gap-3"><i class="fa-solid fa-check text-brand-400"></i> Priority Replacement Bike</li>
+                        </ul>
+                    </div>
+                    <button onclick="openBookingModal('Monthly Rental ($270/month)', 270)" class="mt-8 w-full py-3.5 rounded-xl border border-slate-700 hover:border-brand-400 text-white font-bold text-sm transition-colors">
+                        Book Monthly
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact" class="py-16 bg-[#080d14] border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+                
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-brand-400 flex items-center justify-center text-slate-950 font-black">
+                            <i class="fa-solid fa-motorcycle text-lg"></i>
+                        </div>
+                        <span class="text-lg font-black text-white tracking-tight">BINU'S MOTO</span>
+                    </div>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Top motorcycle and scooter rental service in Dili, Timor-Leste. Featuring Honda Beat, Genio, and KLX/KLS 150cc Trail bikes.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Direct Contact</h4>
+                    <ul class="space-y-3 text-xs text-slate-300">
+                        <li>
+                            <a href="tel:+67078054932" class="hover:text-brand-400 flex items-center gap-2.5">
+                                <i class="fa-solid fa-phone text-brand-400"></i>
+                                <span>Booking Phone: 78054932</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://wa.me/67075821954" target="_blank" class="hover:text-brand-400 flex items-center gap-2.5">
+                                <i class="fa-brands fa-whatsapp text-brand-400 text-sm"></i>
+                                <span>WhatsApp: 75821954</span>
+                            </a>
+                        </li>
+                        <li class="flex items-center gap-2.5 text-slate-400">
+                            <i class="fa-solid fa-location-dot text-brand-400"></i>
+                            <span>Dili, Timor-Leste</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Fleet Models</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li>Honda Genio 110cc ($18/day)</li>
+                        <li>Honda Beat CBS 110cc ($18/day)</li>
+                        <li>Honda Beat Sport 110cc ($18/day)</li>
+                        <li>KLX / KLS 150cc Trail ($20/day)</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Rates Summary</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li>Scooters: <strong class="text-white">$18/day • $95/wk</strong></li>
+                        <li>KLS Trail: <strong class="text-white">$20/day • $115/wk</strong></li>
+                        <li>Monthly: <strong class="text-white">$270 scooter / $330 KLS</strong></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+                <p>&copy; 2026 Binu's Moto Rental. All rights reserved.</p>
+                <div class="flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-brand-400"></span>
+                    <span>Ready for instant WhatsApp bookings in Dili</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div id="booking-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl">
+            <button onclick="closeBookingModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 text-lg">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <h3 class="text-2xl font-black text-white mb-1">Book Bike</h3>
+            <p class="text-xs text-slate-400 mb-6">Send reservation directly to WhatsApp 75821954.</p>
+
+            <form onsubmit="handleQuickBooking(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Bike Model</label>
+                    <input type="text" id="quick-bike-name" readonly class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-brand-400 font-bold text-sm focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Your Full Name</label>
+                    <input type="text" id="quick-user-name" required placeholder="e.g. Maria Silva" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Duration</label>
+                        <select id="quick-duration" class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none">
+                            <option value="1 Day (24h)">1 Day (24h)</option>
+                            <option value="3 Days">3 Days</option>
+                            <option value="1 Week (Discounted)">1 Week (Discounted)</option>
+                            <option value="1 Month (Max Discount)">1 Month (Max Discount)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Start Date</label>
+                        <input type="date" id="quick-start-date" required class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-slate-300 uppercase mb-1">Delivery Location in Dili</label>
+                    <textarea id="quick-notes" rows="2" placeholder="Hotel name, airport, or central pickup..." class="w-full px-4 py-3 rounded-xl bg-slate-950 border border-slate-800 text-white text-sm focus:border-brand-400 focus:outline-none resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-4 rounded-xl bg-brand-400 hover:bg-brand-500 text-slate-950 font-black text-sm shadow-lg shadow-brand-400/20 transition-colors flex items-center justify-center gap-2 mt-2">
+                    <i class="fa-brands fa-whatsapp text-xl"></i>
+                    <span>Send WhatsApp Reservation</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Language dictionary for English & Tetun
+        let currentLang = 'EN';
+        const i18n = {
+            EN: {
+                fleet: "Our Fleet (4 Models)",
+                calc: "Price Calculator",
+                rates: "Rates",
+                contact: "Contact",
+                pill: "DIRECT WHATSAPP BOOKING: +670 75821954",
+                title: "Explore Timor–Leste <br class='hidden sm:inline'><span class='text-brand-400'>With Ultimate Freedom</span>",
+                desc: "Choose from 4 premium motorbikes: Honda Beat 110cc (CBS & Sporty) and Honda Genio 110cc ($18/day), or the powerful KLX / KLS 150cc Dual-Sport Trail bike ($20/day). Includes free hotel & airport delivery, 2 helmets, and 24/7 support!",
+                helmets: "2 Helmets Included",
+                delivery: "Free Dili Delivery",
+                ready: "100% Road Ready",
+                browse: "Browse All 4 Bikes",
+                liveCalc: "Live Price Calculator"
+            },
+            TET: {
+                fleet: "Ami-nia Motor (Modelu 4)",
+                calc: "Kalkuladór Folin",
+                rates: "Folin Aluguel",
+                contact: "Kontaktu",
+                pill: "RESERVA DIRETA WHATSAPP: +670 75821954",
+                title: "Esplora Timor–Leste <br class='hidden sm:inline'><span class='text-brand-400'>Apresia Liberdade Total</span>",
+                desc: "Hili husi motor 4: Honda Beat 110cc (CBS & Sporty) no Honda Genio 110cc ($18/loron), ho KLX / KLS 150cc Dual-Sport Trail ($20/loron). Inklui kapsete 2 no intrega gratuitu iha Dili!",
+                helmets: "Inklui Kapsiti 2",
+                delivery: "Entrega Gratuitu Dili",
+                ready: "Prontu Ba Dalan",
+                browse: "Haree Motor Hotu 4",
+                liveCalc: "Kalkuladór Folin"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'EN' ? 'TET' : 'EN';
+            document.getElementById('lang-label').innerText = currentLang === 'EN' ? 'TETUN' : 'ENGLISH';
+            
+            const t = i18n[currentLang];
+            document.getElementById('nav-fleet').innerText = t.fleet;
+            document.getElementById('nav-calc').innerText = t.calc;
+            document.getElementById('nav-rates').innerText = t.rates;
+            document.getElementById('nav-contact').innerText = t.contact;
+            document.getElementById('hero-pill').innerText = t.pill;
+            document.getElementById('hero-title').innerHTML = t.title;
+            document.getElementById('hero-desc').innerText = t.desc;
+            document.getElementById('badge-helmets').innerText = t.helmets;
+            document.getElementById('badge-delivery').innerText = t.delivery;
+            document.getElementById('badge-ready').innerText = t.ready;
+            document.getElementById('btn-browse').innerText = t.browse;
+            document.getElementById('btn-calc').innerText = t.liveCalc;
+        }
+
+        // Mobile Nav
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuToggle.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+        function closeMobileMenu() { mobileMenu.classList.add('hidden'); }
+
+        // Booking Modal
+        const bookingModal = document.getElementById('booking-modal');
+        function openBookingModal(bikeTitle, dailyRate) {
+            document.getElementById('quick-bike-name').value = bikeTitle;
+            bookingModal.classList.remove('hidden');
+            document.body.classList.add('modal-active');
+        }
+
+        function closeBookingModal() {
+            bookingModal.classList.add('hidden');
+            document.body.classList.remove('modal-active');
+        }
+
+        // Calculator State
+        let currentCalcBike = "Honda Genio 110cc";
+        let calcDailyRate = 18;
+        let calcWeeklyRate = 95;
+        let calcMonthlyRate = 270;
+
+        function selectCalcBike(btnElement, bikeName, daily, weekly, monthly) {
+            document.querySelectorAll('.calc-bike-btn').forEach(b => {
+                b.classList.remove('border-brand-400', 'bg-brand-400/10');
+                b.classList.add('border-slate-800', 'bg-slate-950');
+            });
+
+            btnElement.classList.remove('border-slate-800', 'bg-slate-950');
+            btnElement.classList.add('border-brand-400', 'bg-brand-400/10');
+
+            currentCalcBike = bikeName;
+            calcDailyRate = daily;
+            calcWeeklyRate = weekly;
+            calcMonthlyRate = monthly;
+            updateCalc();
+        }
+
+        function updateCalc() {
+            const days = parseInt(document.getElementById('calc-days-slider').value);
+            const helmets = document.getElementById('calc-helmets').value;
+
+            document.getElementById('calc-days-display').innerText = `${days} Day${days > 1 ? 's' : ''} (${days * 24} Hours)`;
+            document.getElementById('sum-bike-name').innerText = currentCalcBike;
+            document.getElementById('sum-duration').innerText = `${days} Day${days > 1 ? 's' : ''}`;
+            document.getElementById('sum-helmets').innerText = helmets;
+
+            let totalPrice = 0;
+            let rateTierText = "";
+
+            if (days >= 30) {
+                const months = Math.floor(days / 30);
+                const extraDays = days % 30;
+                const extraDayRate = calcMonthlyRate / 30;
+                totalPrice = Math.round((months * calcMonthlyRate) + (extraDays * extraDayRate));
+                rateTierText = `Monthly Discount Tier ($${calcMonthlyRate}/month)`;
+            } else if (days >= 7) {
+                const weeks = Math.floor(days / 7);
+                const extraDays = days % 7;
+                const extraDayRate = calcWeeklyRate / 7;
+                totalPrice = Math.round((weeks * calcWeeklyRate) + (extraDays * extraDayRate));
+                rateTierText = `Weekly Discount Tier ($${calcWeeklyRate}/week)`;
+            } else {
+                totalPrice = days * calcDailyRate;
+                rateTierText = `Standard Daily Rate ($${calcDailyRate}/24h)`;
+            }
+
+            document.getElementById('sum-rate-tier').innerText = rateTierText;
+            document.getElementById('sum-total-price').innerText = `$${totalPrice}`;
+        }
+
+        function submitCalcToWhatsApp() {
+            const days = document.getElementById('calc-days-slider').value;
+            const startDate = document.getElementById('calc-start-date').value;
+            const helmets = document.getElementById('calc-helmets').value;
+            const totalPrice = document.getElementById('sum-total-price').innerText;
+
+            let msg = `Hi Binu's Moto Rental!\n\nI calculated a booking on your website:\n`;
+            msg += `• Bike Model: ${currentCalcBike}\n`;
+            msg += `• Duration: ${days} Day(s)\n`;
+            msg += `• Start Date: ${startDate}\n`;
+            msg += `• Helmets: ${helmets}\n`;
+            msg += `• Total Estimated Price: ${totalPrice}\n\nPlease confirm availability for pickup/delivery in Dili!`;
+
+            window.open(`https://wa.me/67075821954?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        function handleQuickBooking(e) {
+            e.preventDefault();
+            const bike = document.getElementById('quick-bike-name').value;
+            const name = document.getElementById('quick-user-name').value;
+            const duration = document.getElementById('quick-duration').value;
+            const startDate = document.getElementById('quick-start-date').value;
+            const notes = document.getElementById('quick-notes').value;
+
+            let msg = `Hi Binu's Moto Rental!\n\nI want to reserve a motorcycle:\n`;
+            msg += `• Bike: ${bike}\n`;
+            msg += `• Name: ${name}\n`;
+            msg += `• Rental Duration: ${duration}\n`;
+            msg += `• Start Date: ${startDate}\n`;
+            if (notes.trim()) msg += `• Location/Notes: ${notes}\n`;
+
+            window.open(`https://wa.me/67075821954?text=${encodeURIComponent(msg)}`, '_blank');
+            closeBookingModal();
+        }
+
+        // Set default dates
+        document.getElementById('calc-start-date').valueAsDate = new Date();
+        document.getElementById('quick-start-date').valueAsDate = new Date();
+
+        // Initial Calculation
+        updateCalc();
+    </script>
+</body>
+</html>
